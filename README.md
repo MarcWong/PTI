@@ -14,9 +14,12 @@
 *Computaion of Concentration*
 *计算浓度函数c*
 
+## concentrationVoxel.m
+*Turn raw data of concentration to concentration of each voxel, using linear interpolation*
+*将初始浓度数据转化为每个体素的浓度，使用线性差值方法*
 
 ## tensorComputaion.m
-*Computaion of tensor*
+*Gaussian filter, Computaion of tensor, convert the gradient data to RGB image, visualization*
 *高斯平滑、可视化显示*
 
 
