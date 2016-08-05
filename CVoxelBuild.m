@@ -114,7 +114,7 @@ end
  %   for t = 1:timePoint-1
  %       for x = 1:width
  %           for y = 1:height
- %           CderivT(layer,t,x,y) = (C(layer,t+1,x,y) - C(layer,t,x,y))/(acquisitionTime(layer,t+1)-acquisitionTime(layer,t+1));
+ %           CderivT(layer,t,x,y) = (C(layer,t+1,x,y) - C(layer,t,x,y))/(acquisitionTime(layer,t+1)-acquisitionTime(layer,t));
  %           end
  %       end
  %   end

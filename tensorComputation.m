@@ -1,8 +1,13 @@
-tensor = zeros(3,3);
+
+%acquisitionTime = load('/Users/marcWong/Data/ProcessedData/001A/acquisitionTime.txt');
+%acquisitionTime = reshape(acquisitionTime,layer,timePoint);
+%acquisitionTime = double(acquisitionTime);
+%%
 %for t = 1 : 40
 for t = 6:30
 threshold = 1e-5;
     C = load(['/Users/marcWong/Data/ProcessedData/001A/concentration/time' num2str(t) '.dat']);
+    C1 = load(['/Users/marcWong/Data/ProcessedData/001A/concentration/time' num2str(t+1) '.dat']);
     C = reshape(C,256,256,114);
     C = double(C);
     for x = 1:256
@@ -36,7 +41,7 @@ threshold = 1e-5;
     for i =1:256
         for j = 1:256
             if(r(i,j,80)>threshold)
-                h(i,j) = mod((phi(i,j,80) - phi_R + 2*pi) ,2*pi);
+                h(i,j) = mod(2*(phi(i,j,80) - phi_R + 2*pi) ,2*pi);
                 s(i,j) = sin(ps*theta(i,j,80))/sin(ps*pi/2);
                 v(i,j) = 1;
             else
@@ -79,3 +84,18 @@ threshold = 1e-5;
         pause(0.01);
     %}
 end
+
+%%
+%computation of derivC
+%{
+%CderivT = double(layer,timePoint,width,height);
+%for layer = 1:layer
+ %   for t = 1:timePoint-1
+ %       for x = 1:width
+ %           for y = 1:height
+ %           CderivT(layer,t,x,y) = (C(layer,t+1,x,y) - C(layer,t,x,y))/(acquisitionTime(layer,t+1)-acquisitionTime(layer,t+1));
+ %           end
+ %       end
+ %   end
+%end
+%}
