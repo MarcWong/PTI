@@ -36,11 +36,24 @@
 *高斯平滑、可视化显示*
 
 
-###[demonstration.m](https://github.com/MarcWong/PTI/blob/master/demonstration.m)
+###[rec2sphere.m](https://github.com/MarcWong/PTI/blob/master/rec2sphere.m)
 
-**demo**
+**transvert Cartesian coordinate to spherical coordinate**
 
-*图片演示*
+*直角坐标转球坐标*
+
+###[tensorGeneration.m](https://github.com/MarcWong/PTI/blob/master/tensorGeneration.m)
+
+**display gradient field on a 2d image**
+
+*表示梯度场*
+
+###[PlotEllipse.m](https://github.com/MarcWong/PTI/blob/master/PlotEllipse.m)
+
+**plot ellipse(represent for tensor)**
+
+*画椭圆表示梯度强度*
+
 
 ## 2.Project Introduction
 [paper editing](https://www.overleaf.com/5853697wdvqfy#/19294796/)
