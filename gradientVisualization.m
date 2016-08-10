@@ -15,7 +15,7 @@ threshold = 1e-5;
             for j = 1:256
                 if(tCdt(i,j)>CdtUpperBound || tCdt(i,j)<CdtLowerBound)
                     roi(i,j) = 255;
-                else
+                else1
                     roi(i,j) = 0;
                 end
             end
@@ -45,7 +45,10 @@ for t = 1:30
     %display('z filter finished');
     %dlmwrite('/Users/marcWong/Data/ProcessedData/001A/concentrationFiltered.txt', C, 'delimiter', ' ','precision',10);
     [Gx,Gy,Gz] = gradient(C);
-    for z = 6:6:114
+    dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gx.txt'], Gx, 'delimiter', ' ','precision',10);
+    dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gy.txt'], Gy, 'delimiter', ' ','precision',10);
+    dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gz.txt'], Gz, 'delimiter', ' ','precision',10);
+    %for z = 6:6:114
     %{
         %loading of Cdt
         tCdt = zeros([256 256]);
@@ -58,16 +61,16 @@ for t = 1:30
         minCdt = min(min(tCdt(:,:)));
         tCdt = (tCdt - minCdt)./(maxCdt-minCdt);
     %}
-        maxGx = max(max(max(Gx(:,:,z))));
-        maxGy = max(max(max(Gy(:,:,z))));
-        maxGz = max(max(max(Gz(:,:,z))));
-        img = zeros([256 256 3]);
-        img(:,:,1) = Gx(:,:,z) / maxGx * 255. *5;
-        img(:,:,2) = Gy(:,:,z) / maxGy * 255. *5;
-        img(:,:,3) = Gz(:,:,z) / maxGz * 255.;
-        img = uint8(img);
-        imshow(img,'InitialMagnification','fit');
-        imwrite(img,['/Users/marcWong/Data/ProcessedData/001A/coloredimg/layer' num2str(z) '/' num2str(t) '.jpg']);
+        %maxGx = max(max(max(Gx(:,:,z))));
+        %maxGy = max(max(max(Gy(:,:,z))));
+        %maxGz = max(max(max(Gz(:,:,z))));
+        %img = zeros([256 256 3]);
+        %img(:,:,1) = Gx(:,:,z) / maxGx * 255. *5;
+        %img(:,:,2) = Gy(:,:,z) / maxGy * 255. *5;
+        %img(:,:,3) = Gz(:,:,z) / maxGz * 255.;
+        %img = uint8(img);
+        %imshow(img,'InitialMagnification','fit');
+        %imwrite(img,['/Users/marcWong/Data/ProcessedData/001A/coloredimg/layer' num2str(z) '/' num2str(t) '.jpg']);
         
         %{
         HSV approach
@@ -126,5 +129,5 @@ for t = 1:30
             xlabel('Gz');
             pause(0.01);
         %}
-    end
+    %end
 end
