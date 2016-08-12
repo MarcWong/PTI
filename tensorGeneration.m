@@ -10,11 +10,11 @@ r = sqrt(double(img(:,:,1)).^2+double(img(:,:,2)).^2 + double(img(:,:,3)).^2) .*
 rxy = sqrt(double(img(:,:,1)).^2+double(img(:,:,2)).^2).*0.008;
 for x = 1:2:256
     for y = 1:2:256
-        if (rxy(x,y) < 0.3)
-            rxy(x,y) = 0.3;
-            lamda(x,y) = 0.3;
+        if (rxy(x,y) < 0.2)
+            rxy(x,y) = 0.2;
+            lamda(x,y) = 0.2;
         else
-            lamda(x,y) = 0.3;
+            lamda(x,y) = 0.2;
         end
     end
 end
