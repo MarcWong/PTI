@@ -24,7 +24,7 @@ while 1
         img = imread(strcat(path,listing(listNum).name));
         
         %
-        %imshow(img,'InitialMagnification','fit');
+        imshow(img,'InitialMagnification','fit');
         
         %
         %S = sum(sum(img)) / fileSum / 100;

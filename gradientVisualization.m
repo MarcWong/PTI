@@ -45,9 +45,15 @@ for t = 1:30
     %display('z filter finished');
     %dlmwrite('/Users/marcWong/Data/ProcessedData/001A/concentrationFiltered.txt', C, 'delimiter', ' ','precision',10);
     [Gx,Gy,Gz] = gradient(C);
-    dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gx.txt'], Gx, 'delimiter', ' ','precision',10);
-    dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gy.txt'], Gy, 'delimiter', ' ','precision',10);
-    dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gz.txt'], Gz, 'delimiter', ' ','precision',10);
+    fid=fopen(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gx.bin'],'wb');
+    fwrite(fid,Gx,'float');
+    fid=fopen(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gy.bin'],'wb');
+    fwrite(fid,Gy,'float');
+    fid=fopen(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gz.bin'],'wb');
+    fwrite(fid,Gz,'float');
+    %dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gx.txt'], Gx, 'delimiter', ' ','precision',10);
+    %dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gy.txt'], Gy, 'delimiter', ' ','precision',10);
+    %dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gz.txt'], Gz, 'delimiter', ' ','precision',10);
     %for z = 6:6:114
     %{
         %loading of Cdt
