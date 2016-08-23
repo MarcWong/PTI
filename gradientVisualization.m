@@ -1,7 +1,26 @@
+%constants
+%patient   timePoint   layer      Sum       TE   width   height   zmax
+%001A        40              20        800        54    256       256      114
+%002A        50              24        1200      32    128       128      126
+%004B        90              24        2160       23    128       128      126
+%028B        60              20        1200       42    128       128
+%033A        60              20       1200       46    128       128
+
 %acquisitionTime = load('/Users/marcWong/Data/ProcessedData/001A/acquisitionTime.txt');
 %acquisitionTime = reshape(acquisitionTime,layer,timePoint);
 %acquisitionTime = double(acquisitionTime);
+
+%path = '/Users/marcWong/Data/ProcessedData/001A/';
+path = '/Users/marcWong/Data/ProcessedData/002A/';
+%path = '/Users/marcWong/Data/ProcessedData/004B/';
+%path = '/Users/marcWong/Data/ProcessedData/028B/';
+%path = '/Users/marcWong/Data/ProcessedData/033A/';
+
 threshold = 1e-5;
+width=128;
+height=128;
+timePoint=50;
+zmax=126;
 %CdtUpperBound = 0.515;
 %CdtLowerBound=0.455;
 %%
@@ -24,33 +43,23 @@ threshold = 1e-5;
         imwrite(roi,['/Users/marcWong/Data/ProcessedData/001A/roi/roicdt' num2str(t) '.jpg']);
     %}
 %%
-for t = 1:30
-    C = load(['/Users/marcWong/Data/ProcessedData/001A/concentration/time' num2str(t) '.dat']);
-    C = reshape(C,256,256,114);
+for t = 1:timePoint
+    C = load([path 'concentration/time' num2str(t) '.dat']);
+    C = reshape(C,width,height,zmax);
     C = double(C);
-    for i = 1:256
-        window=fspecial('gaussian',[4 2],4);
-        C(i,:,:) = imfilter(C(i,:,:),window);
-    end
-    %display('x filter finished');
-    for j = 1 : 256
-        window=fspecial('gaussian',[4 2],4);
-        C(:,j,:) = imfilter(C(:,j,:),window);
-    end
-    %display('y filter finished');
-    for k = 1: 114
+    for k = 1: zmax
         window=fspecial('gaussian',[4 4],4);
         C(:,:,k) = imfilter(C(:,:,k),window);
     end
     %display('z filter finished');
     %dlmwrite('/Users/marcWong/Data/ProcessedData/001A/concentrationFiltered.txt', C, 'delimiter', ' ','precision',10);
-    %{
+    
     [Gx,Gy,Gz] = gradient(C);
-    fid=fopen(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gx.bin'],'wb');
+    fid=fopen([path 't' num2str(t) 'Gx.bin'],'wb');
     fwrite(fid,Gx,'float');
-    fid=fopen(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gy.bin'],'wb');
+    fid=fopen([path 't' num2str(t) 'Gy.bin'],'wb');
     fwrite(fid,Gy,'float');
-    fid=fopen(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gz.bin'],'wb');
+    fid=fopen([path 't' num2str(t) 'Gz.bin'],'wb');
     fwrite(fid,Gz,'float');
     %}
     %dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gx.txt'], Gx, 'delimiter', ' ','precision',10);
