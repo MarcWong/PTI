@@ -1,22 +1,34 @@
 %function T = tensorComputation(layer)
 %%
 %constants
-timePoint = 40;
-width = 256;
-height = 256;
-layer = 20;
+%patient   timePoint   layer      Sum       TE   width   height
+%001A        40              20        800        54    256       256
+%002A        50              24        1200      32    128       128
+%004B        90              24        2160       23    128       128
+%028B        60              20        1200       42    128       128
+%033A        60              20       1200       46    128       128
+timePoint = 50;
+width = 128;
+height = 128;
+layer = 24;
 threshold = 10;
+%path = '/Users/marcWong/Data/ProcessedData/001A/';
+path = '/Users/marcWong/Data/ProcessedData/002A/';
+%path = '/Users/marcWong/Data/ProcessedData/004B/';
+%path = '/Users/marcWong/Data/ProcessedData/028B/';
+%path = '/Users/marcWong/Data/ProcessedData/033A/';
+
 %acquisitionTime = load('/Users/marcWong/Data/ProcessedData/001A/acquisitionTime.txt');
 %acquisitionTime = reshape(acquisitionTime,layer,timePoint);
 %acquisitionTime = double(acquisitionTime);
-C = load('/Users/marcWong/Data/ProcessedData/001A/concentration.txt');
+C = load([path 'concentration.txt']);
 C = reshape(C,layer,timePoint,width,height);
 C = double(C);
 %dcmPath = '/Users/marcWong/Data/PerfusionSource/001A/PERFUSION/';
 %listing = dir([dcmPath '*.dcm']);
 %fileSum = length(listing); 
 %mask = imread('/Users/marcWong/Data/ProcessedData/001A/roi/roi.jpg');
-outputPath = '/Users/marcWong/Data/ProcessedData/001A/tensor/';
+outputPath = [path 'concentration/'];
 %%
 %read acquisition time
 %{
@@ -142,13 +154,51 @@ end
 %}
 %%
 %C to voxel, computation of tensor
+%001A
+%{
 zCoordinate = [-33.671030050502,-27.69087219833,-21.710713392482,-15.730555063472...
     -9.7503967344624,-3.7702379286152,2.2099199235577,8.1900787294048...
     14.170236581578,20.150396341099,26.130556100621,32.110712045445...
     38.090871804966,44.071031564488,50.051187509312,56.031343454136...
     62.011507028355,67.991662973179,73.971818918003,79.951982492222];
+%}
+ 
+%002A
+zCoordinate = [-33.671030050502,-27.69087219833,-21.710713392482,-15.730555063472...
+    -9.7503967344624,-3.7702379286152,2.2099199235577,8.1900787294048...
+    14.170236581578,20.150396341099,26.130556100621,32.110712045445...
+    38.090871804966,44.071031564488,50.051187509312,56.031343454136...
+    62.011507028355,67.991662973179,73.971818918003,79.951982492222];
+
+%004B
+%{
+zCoordinate = [-33.671030050502,-27.69087219833,-21.710713392482,-15.730555063472...
+    -9.7503967344624,-3.7702379286152,2.2099199235577,8.1900787294048...
+    14.170236581578,20.150396341099,26.130556100621,32.110712045445...
+    38.090871804966,44.071031564488,50.051187509312,56.031343454136...
+    62.011507028355,67.991662973179,73.971818918003,79.951982492222];
+%}
+
+%028B
+%{
+zCoordinate = [-33.671030050502,-27.69087219833,-21.710713392482,-15.730555063472...
+    -9.7503967344624,-3.7702379286152,2.2099199235577,8.1900787294048...
+    14.170236581578,20.150396341099,26.130556100621,32.110712045445...
+    38.090871804966,44.071031564488,50.051187509312,56.031343454136...
+    62.011507028355,67.991662973179,73.971818918003,79.951982492222];
+%}
+
+%033A
+%{
+zCoordinate = [-33.671030050502,-27.69087219833,-21.710713392482,-15.730555063472...
+    -9.7503967344624,-3.7702379286152,2.2099199235577,8.1900787294048...
+    14.170236581578,20.150396341099,26.130556100621,32.110712045445...
+    38.090871804966,44.071031564488,50.051187509312,56.031343454136...
+    62.011507028355,67.991662973179,73.971818918003,79.951982492222];
+%}
+
 zCoordinate = zCoordinate - zCoordinate(1);
-cVoxel = zeros([width height int8(zCoordinate(20))]);
+cVoxel = zeros([width height int8(zCoordinate(layer))]);
 %set layer 1 to z = 0
 for t = 1:timePoint
     for i =1:int8(zCoordinate(20))
