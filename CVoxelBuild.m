@@ -1,21 +1,21 @@
 %%
 %constants
-%patient   timePoint   layer      Sum       TE   width   height
-%001A        40              20        800        54    256       256
-%002A        50              24        1200      32    128       128
-%004B        90              24        2160       23    128       128
-%028B        60              20        1200       42    128       128
-%033A        60              20       1200       46    128       128
-timePoint = 50;
+%patient   timePoint   layer      Sum       TE   width   height  zmax
+%001A        40              20        800        54    256       256    114
+%002A        50              24        1200      32    128       128    159
+%004B        90              24        2160       23    128       128   127
+%028B        60              20        1200       42    128       128   133
+%033A        60              20       1200       46    128       128    128
+timePoint = 60;
 width = 128;
 height = 128;
-layer = 24;
+layer = 20;
 threshold = 10;
 %path = '/Users/marcWong/Data/ProcessedData/001A/';
-path = '/Users/marcWong/Data/ProcessedData/002A/';
+%path = '/Users/marcWong/Data/ProcessedData/002A/';
 %path = '/Users/marcWong/Data/ProcessedData/004B/';
 %path = '/Users/marcWong/Data/ProcessedData/028B/';
-%path = '/Users/marcWong/Data/ProcessedData/033A/';
+path = '/Users/marcWong/Data/ProcessedData/033A/';
 
 %acquisitionTime = load('/Users/marcWong/Data/ProcessedData/001A/acquisitionTime.txt');
 %acquisitionTime = reshape(acquisitionTime,layer,timePoint);
@@ -163,11 +163,13 @@ zCoordinate = [-33.671030050502,-27.69087219833,-21.710713392482,-15.73055506347
 %}
  
 %002A
+%{
 zCoordinate = [-45.805432408434,-38.912625401598,-32.019810765367,-25.127003758531...
 -18.234192936998,-11.341385930162,-4.448575108629,2.4442338055556,9.3370446270888...
 16.229853541273,23.122662455458,30.015472084898,36.90828147592,43.80109110536...
 50.693900019545,57.586708933729,64.479519755263,71.372328669447,78.26513949098...
 85.157946497816,92.05075731935,98.943568140883,105.83637514772,112.72918215455];
+%}
 
 %004B
 %{
@@ -187,21 +189,18 @@ zCoordinate = [-56.668674468994,-49.668674468994,-42.668674468994,-35.6686744689
 %}
 
 %033A
-%{
-zCoordinate = [-33.671030050502,-27.69087219833,-21.710713392482,-15.730555063472...
-    -9.7503967344624,-3.7702379286152,2.2099199235577,8.1900787294048...
-    14.170236581578,20.150396341099,26.130556100621,32.110712045445...
-    38.090871804966,44.071031564488,50.051187509312,56.031343454136...
-    62.011507028355,67.991662973179,73.971818918003,79.951982492222];
+
+zCoordinate = [-9.6662878,-2.9721541,3.7219778,10.416112,17.110245,23.804378,30.498512,37.192645,43.886778...
+50.580911,57.275044,63.969178,70.66331,77.357443,84.051577,90.745711,97.439845,104.13397,110.82811,117.52224];
 %}
 
 zCoordinate = zCoordinate - zCoordinate(1);
-cVoxel = zeros([width height int8(zCoordinate(layer))]);
+cVoxel = zeros([width height ceil(zCoordinate(layer))]);
 %set layer 1 to z = 0
 for t = 1:timePoint
-    for i =1:int8(zCoordinate(layer))
+    for i =1:ceil(zCoordinate(layer))
         l = 1;
-        while i > int8(zCoordinate(l))
+        while i > ceil(zCoordinate(l))
             l = l + 1;
         end
         mSum = zCoordinate(l) - zCoordinate(l-1);

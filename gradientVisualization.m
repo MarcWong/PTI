@@ -1,10 +1,10 @@
 %constants
-%patient   timePoint   layer      Sum       TE   width   height   zmax
-%001A        40              20        800        54    256       256      114
-%002A        50              24        1200      32    128       128      126
-%004B        90              24        2160       23    128       128      126
-%028B        60              20        1200       42    128       128
-%033A        60              20       1200       46    128       128
+%patient   timePoint   layer      Sum       TE   width   height  zmax
+%001A        40              20        800        54    256       256    114
+%002A        50              24        1200      32    128       128    159
+%004B        90              24        2160       23    128       128   127
+%028B        60              20        1200       42    128       128   133
+%033A        60              20       1200       46    128       128    128
 
 %acquisitionTime = load('/Users/marcWong/Data/ProcessedData/001A/acquisitionTime.txt');
 %acquisitionTime = reshape(acquisitionTime,layer,timePoint);
@@ -20,7 +20,11 @@ threshold = 1e-5;
 width=128;
 height=128;
 timePoint=50;
-zmax=126;
+%zmax=128;
+kx=3;
+ky=3;
+kz=1;
+
 %CdtUpperBound = 0.515;
 %CdtLowerBound=0.455;
 %%
@@ -43,7 +47,10 @@ zmax=126;
         imwrite(roi,['/Users/marcWong/Data/ProcessedData/001A/roi/roicdt' num2str(t) '.jpg']);
     %}
 %%
+z = 5;
 for t = 1:timePoint
+    %{
+    %from Concentration to gradient
     C = load([path 'concentration/time' num2str(t) '.dat']);
     C = reshape(C,width,height,zmax);
     C = double(C);
@@ -51,9 +58,7 @@ for t = 1:timePoint
         window=fspecial('gaussian',[4 4],4);
         C(:,:,k) = imfilter(C(:,:,k),window);
     end
-    %display('z filter finished');
-    %dlmwrite('/Users/marcWong/Data/ProcessedData/001A/concentrationFiltered.txt', C, 'delimiter', ' ','precision',10);
-    
+    %display('gaussian filter finished');
     [Gx,Gy,Gz] = gradient(C);
     fid=fopen([path 't' num2str(t) 'Gx.bin'],'wb');
     fwrite(fid,Gx,'float');
@@ -61,11 +66,16 @@ for t = 1:timePoint
     fwrite(fid,Gy,'float');
     fid=fopen([path 't' num2str(t) 'Gz.bin'],'wb');
     fwrite(fid,Gz,'float');
+    %dlmwrite([path 't' num2str(t) 'Gx.txt'], Gx, 'delimiter', ' ','precision',10);
+    %dlmwrite([path 't' num2str(t) 'Gy.txt'], Gy, 'delimiter', ' ','precision',10);
+    %dlmwrite([path 't' num2str(t) 'Gz.txt'], Gz, 'delimiter', ' ','precision',10);
     %}
-    %dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gx.txt'], Gx, 'delimiter', ' ','precision',10);
-    %dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gy.txt'], Gy, 'delimiter', ' ','precision',10);
-    %dlmwrite(['/Users/marcWong/Data/ProcessedData/001A/t' num2str(t) 'Gz.txt'], Gz, 'delimiter', ' ','precision',10);
-    %for z = 6:6:114
+    
+    Gx=load([path 't' num2str(t) 'Gx.bin']);
+    Gy=load([path 't' num2str(t) 'Gy.bin']);
+    Gz=load([path 't' num2str(t) 'Gz.bin']);
+    
+    %for z = 1:zmax
     %{
         %loading of Cdt
         tCdt = zeros([256 256]);
@@ -78,16 +88,16 @@ for t = 1:timePoint
         minCdt = min(min(tCdt(:,:)));
         tCdt = (tCdt - minCdt)./(maxCdt-minCdt);
     %}
-        %maxGx = max(max(max(Gx(:,:,z))));
-        %maxGy = max(max(max(Gy(:,:,z))));
-        %maxGz = max(max(max(Gz(:,:,z))));
-        %img = zeros([256 256 3]);
-        %img(:,:,1) = Gx(:,:,z) / maxGx * 255. *5;
-        %img(:,:,2) = Gy(:,:,z) / maxGy * 255. *5;
-        %img(:,:,3) = Gz(:,:,z) / maxGz * 255.;
-        %img = uint8(img);
-        %imshow(img,'InitialMagnification','fit');
-        %imwrite(img,['/Users/marcWong/Data/ProcessedData/001A/coloredimg/layer' num2str(z) '/' num2str(t) '.jpg']);
+        maxGx = max(max(max(Gx(:,:,z))));
+        maxGy = max(max(max(Gy(:,:,z))));
+        maxGz = max(max(max(Gz(:,:,z))));
+        img = zeros([width height 3]);
+        img(:,:,1) = Gx(:,:,z) / maxGx * 255. *kx;
+        img(:,:,2) = Gy(:,:,z) / maxGy * 255. *ky;
+        img(:,:,3) = Gz(:,:,z) / maxGz * 255. *kz;
+        img = uint8(img);
+        imshow(img,'InitialMagnification','fit');
+        imwrite(img,[path '/coloredimg/layer' num2str(z) '/' num2str(t) '.jpg']);
         
         %{
         HSV approach
