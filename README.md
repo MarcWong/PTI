@@ -29,9 +29,9 @@
 
 *将初始浓度数据转化为每个体素的浓度，使用线性差值方法*
 
-###[gradientVisualization.m](https://github.com/MarcWong/PTI/blob/master/gradientVisualization.m)
+###[gradientCV](https://github.com/MarcWong/PTI/blob/master/gradientCV.m)
 
-**Gaussian filter, Computaion of tensor, convert the gradient data to RGB image, visualization**
+**Gaussian filter, Computaion of gradient, convert the gradient data to RGB image, visualization**
 
 *高斯平滑、可视化显示*
 
@@ -50,13 +50,20 @@
 
 ###[PlotEllipse.m](https://github.com/MarcWong/PTI/blob/master/PlotEllipse.m)
 
-**plot ellipse(represent for tensor)**
+**plot ellipse function(represent for tensor)**
 
-*画椭圆表示梯度强度*
+*画椭圆函数*
+
+###[signalSequencePlot.m](https://github.com/MarcWong/PTI/blob/master/signalSequencePlot.m)
+
+**plot C(t)**
+
+*画浓度函数*
 
 
 ## 2.Project Introduction
 [paper editing](https://www.overleaf.com/5853697wdvqfy#/19294796/)
+
 ## 3.Author
 [Yao Wang](https://www.facebook.com/marcSwong) at Peking University & UCLA
 
