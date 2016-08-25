@@ -10,21 +10,21 @@
 %acquisitionTime = reshape(acquisitionTime,layer,timePoint);
 %acquisitionTime = double(acquisitionTime);
 
-path = '/Users/marcWong/Data/ProcessedData/001A/';
+%path = '/Users/marcWong/Data/ProcessedData/001A/';
 %path = '/Users/marcWong/Data/ProcessedData/002A/';
-%path = '/Users/marcWong/Data/ProcessedData/004B/';
+path = '/Users/marcWong/Data/ProcessedData/004B/';
 %path = '/Users/marcWong/Data/ProcessedData/028B/';
 %path = '/Users/marcWong/Data/ProcessedData/033A/';
 
-threshold = 1e-5;
-width=256;
-height=256;
-timePoint=40;
-zmax=114;
-layer = 20;
-kx = 2.8;
-ky = 2.8;
-kz = 1.1;
+%threshold = 1e-5;
+width=128;
+height=128;
+timePoint=90;
+zmax=127;
+layer = 24;
+%kx = 2.8;
+%ky = 2.8;
+%kz = 1.1;
 
 %CdtUpperBound = 0.515;
 %CdtLowerBound=0.455;
@@ -79,6 +79,10 @@ for t = 1:timePoint
     Gx=load([path 't' num2str(t) 'Gx.txt'],'delimiter',' ');
     Gy=load([path 't' num2str(t) 'Gy.txt'],'delimiter',' ');
     Gz=load([path 't' num2str(t) 'Gz.txt'],'delimiter',' ');
+    
+    %load([path 't' num2str(t) 'Gx.mat'],'Gx');
+    %load([path 't' num2str(t) 'Gy.mat'],'Gy');
+    %load([path 't' num2str(t) 'Gz.mat'],'Gz');
     
     Gx = reshape(Gx,width,height,zmax);
     Gy = reshape(Gy,width,height,zmax);
