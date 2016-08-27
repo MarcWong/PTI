@@ -1,8 +1,8 @@
 %%
 %constants
 %patient   timePoint   layer      Sum       TE   width   height  zmax
-%001A        40              20        800        54    256       256    114
-%002A        50              24        1200      32    128       128    159
+%001A        40              20        800        54    256       256    115
+%002A        50              24        1200      32    128       128    139
 %004B        90              24        2160       23    128       128   127
 %028B        60              20        1200       42    128       128   133
 %033A        60              20       1200       46    128       128    128
@@ -189,7 +189,7 @@ zCoordinate = [-56.668674468994,-49.668674468994,-42.668674468994,-35.6686744689
 %}
 
 %033A
-
+%{
 zCoordinate = [-9.6662878,-2.9721541,3.7219778,10.416112,17.110245,23.804378,30.498512,37.192645,43.886778...
 50.580911,57.275044,63.969178,70.66331,77.357443,84.051577,90.745711,97.439845,104.13397,110.82811,117.52224];
 %}
@@ -215,6 +215,7 @@ for t = 1:timePoint
     end
     dlmwrite([outputPath 'time' num2str(t) '.dat'],cVoxel, 'delimiter', ' ');
 end
+
 %%
 %filtering and normalization
 %{
@@ -237,7 +238,7 @@ end
 %{
 while 1
     z = input('input layer number:');
-    while z > 20 || z < 0
+    while z > layer || z < 0
         z = input('wrong parameter, input layer number between 1-20, 0 is quit:');
     end
     if z==0
