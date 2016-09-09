@@ -1,4 +1,4 @@
-# Perfusion MRI Gradient Tractography in Acute Stroke
+# Vector flow mapping
 
 <img src="http://mri-q.com/uploads/3/4/5/7/34572113/7546639_orig.gif?259" alt="img" width="200">
 
